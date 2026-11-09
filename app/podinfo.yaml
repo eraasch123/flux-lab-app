@@ -1,0 +1,29 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: podinfo
+spec:
+  interval: 10m
+  url: https://stefanprodan.github.io/podinfo
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: podinfo
+spec:
+  interval: 5m
+  timeout: 1m                  # how long an install or upgrade may take to become ready
+  chart:
+    spec:
+      chart: podinfo
+      version: "6.17.0"         # exact version, never a range in production
+      sourceRef:
+        kind: HelmRepository
+        name: podinfo
+  values:
+    replicaCount: 2
+  upgrade:
+    remediation:
+      retries: 1
+      strategy: rollback       # on a failed upgrade, return to the last good revision
+      remediateLastFailure: true
