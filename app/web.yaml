@@ -19,7 +19,7 @@ spec:
             - containerPort: 80
           readinessProbe:
             httpGet:
-              path: /broken
+              path: /
               port: 80
             periodSeconds: 5
 ---
