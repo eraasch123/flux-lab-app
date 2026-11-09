@@ -22,6 +22,8 @@ spec:
         name: podinfo
   values:
     replicaCount: 2
+    image:
+      tag: does-not-exist
   upgrade:
     remediation:
       retries: 1
